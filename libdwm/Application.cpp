@@ -201,7 +201,10 @@ bool Application::prepareRendering() {
 
     BeginTextureMode(_framebuffer);
 
-    ClearBackground((Color){255, 255, 255, 0});
+    if (_type <= ApplicationType::WindowedBorderless) ClearBackground((Color){255, 255, 255, 255});
+    else {
+        ClearBackground((Color){255, 255, 255, 0});
+    }
 
     BeginMode2D(_camera);
 

@@ -29,6 +29,8 @@
 
 #include "Registry.hpp"
 
+#include "Notepad.hpp"
+
 #include <thread>
 #include <chrono>
 
@@ -40,10 +42,10 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
     loadTexture2("ui/taskbar_app.png");
     loadTexture2("ui/taskbar_app_selected.png");
 
-    auto text_hi = new TextFieldObject(this, "Select current wallpaper for this session:");
+    auto text_hi = new TextObject("Select current wallpaper for this session:");
     text_hi->setColor(BLACK);
 
-    text_hi->setFont(owner->accessFont("Segoe UI", 25));
+    text_hi->setFont(owner->accessFont("Segoe UI Bold", 25));
     text_hi->setFontSize(25);
     text_hi->setSpacing(0.5f);
     text_hi->setBlending(BLEND_MULTIPLIED);
@@ -59,6 +61,10 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
 
     int i = 0;
 
+    int posX__ = 40;
+    int posY__ = 70;
+
+    i = 0;
     for (const auto& dirEntry : recursive_directory_iterator(_owner->getResourcesPath() + "/wallpapers")) {
         if (!dirEntry.is_directory()) {
             std::string f = dirEntry.path();
@@ -75,12 +81,43 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
             }, f, this);
 
             thr.detach();
+
+            posX__ += 70;
+
+            i++;
+
+            if ((i % 8) == 0) {
+                posY__ += 50 + 10;
+                posX__ = 40;
+            }
         }
     }
 
+    if (posY__ != 70) posY__ += 10;
+    posX__ = 40;
+
+    auto text1 = new TextObject("Applications");
+    text1->setColor(BLACK);
+    text1->setFont(owner->accessFont("Segoe UI Bold", 25));
+    text1->setFontSize(25);
+    text1->setSpacing(0.5f);
+    text1->setBlending(BLEND_MULTIPLIED);
+    text1->setPosition(posX__, posY__);
+
     text_hi->setPosition(40, 40);
 
+    auto btn_notepad = new ButtonObject(_textureMap["ui/taskbar_app.png"], _textureMap["ui/taskbar_app_selected.png"], [&](ButtonObject *self, void *arg) {
+        auto dwm = reinterpret_cast<DWM *>(arg);
+        auto notepad = new NotepadWindow(dwm);
+
+        dwm->pushApplication(notepad);
+    }, owner);
+
+    btn_notepad->setPosition(posX__, posY__ + text1->getTextSizeY() + 10);
+
     this->pushObject("text", text_hi);
+    this->pushObject("text1", text1);
+    this->pushObject("btn_notepad", btn_notepad);
 }
 
 void TestWindow::beginRendering(float delta) {
@@ -152,8 +189,6 @@ void TestWindow::prerender(float delta) {
 }
 
 TestWindow::~TestWindow() {
-    std::cout << "DESTROY!" << std::endl;
-
     int i = 0;
 
     while(i < _containers.size()) {

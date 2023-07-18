@@ -46,7 +46,7 @@ int main(int, char**){
 
     SetTargetFPS(144);
 
-    dwm = new DWM("resources_replacement");
+    dwm = new DWM("resources");
     auto taskbar = new TaskbarApplication(dwm);
     auto bg = new BackgroundApplication(dwm, "wallpapers/Windows/img0.png");
 
