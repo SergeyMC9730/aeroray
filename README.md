@@ -3,6 +3,8 @@
 LibWDM is an attempt to recreate Windows 7 desktop environment inside
 [raylib](https://www.raylib.com/). It supports windowed, windowed borderless and fullscreen windows.
 
+![Screenshot from 2023-07-30 02-06-21](https://github.com/SergeyMC9730/aeroray/assets/57207009/504bc507-b074-48e5-8389-dde57b8da24d)
+
 # Additional software
 
 This repository also contains example applications that can be used with libwdm to get better experience with this framework. Aeroray includes taskbar and background implementations (with wallpaper switcher).
