@@ -56,13 +56,8 @@ void RenderObject::setPosition(int x, int y) {
     _y = y;
 }
 
-void RenderObject::setWidthHeight(Vector2 vec) {
-    _width = vec.x;
-    _height = vec.y;
-}
-void RenderObject::setWidthHeight(int w, int h) {
-    _width = w;
-    _height = h;
+RenderObjectType RenderObject::getRendererType() {
+    return _ObjectType;
 }
 
 void RenderObject::render(float delta) {}
@@ -77,6 +72,101 @@ bool RenderObject::checkCollision(Rectangle rect) {
 
 void RenderObject::setBlending(uint8_t blending) {
     this->_blendType = blending;
+}
+
+void RenderObject::setRotation(float rot) {
+    _rotation = rot;
+}
+float RenderObject::getRotation() {
+    return _rotation;
+}
+
+void RenderObject::setSize(Vector2 size) {
+    setSizeX(size.x);
+    setSizeY(size.y);
+}
+void RenderObject::setSize(float x, float y) {
+    setSizeX(x);
+    setSizeY(y);
+}
+Vector2 RenderObject::getSize() {
+    Vector2 vec;
+
+    vec.x = getSizeX();
+    vec.y = getSizeY();
+
+    return vec;
+}
+
+void RenderObject::setSizeX(float x) {
+    _width = x;
+}
+void RenderObject::setSizeY(float y) {
+    _height = y;
+}
+    
+float RenderObject::getSizeX() {
+    return _width;
+}
+float RenderObject::getSizeY() {
+    return _height;
+}
+
+Vector2 RenderObject::getPosition() {
+    Vector2 vec;
+
+    vec.x = getPositionX();
+    vec.y = getPositionY();
+
+    return vec;
+}
+
+void RenderObject::setScale(Vector2 scale) {
+    setScaleX(scale.x);
+    setScaleY(scale.y);
+}
+void RenderObject::setScale(float x, float y) {
+    setScaleX(x);
+    setScaleY(y);
+}
+void RenderObject::setScale(float scale) {
+    setScale(scale, scale);
+}
+Vector2 RenderObject::getScale() {
+    Vector2 vec;
+
+    vec.x = getScaleX();
+    vec.y = getScaleY();
+
+    return vec;
+}
+
+void RenderObject::setPositionX(float x) {
+    _x = x;
+}
+void RenderObject::setPositionY(float y) {
+    _y = y;
+}
+
+float RenderObject::getPositionX() {
+    return _x;
+}
+float RenderObject::getPositionY() {
+    return _y;
+}
+
+void RenderObject::setScaleX(float x) {
+    _scaleX = x;
+}
+float RenderObject::getScaleX() {
+    return _scaleX;
+}
+
+void RenderObject::setScaleY(float y) {
+    _scaleY = y;
+}
+float RenderObject::getScaleY() {
+    return _scaleY;
 }
 
 RenderObject::~RenderObject() {}

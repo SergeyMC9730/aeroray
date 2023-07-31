@@ -19,13 +19,13 @@
 #pragma once
 
 #include "RenderObject.hpp"
+#include "RGBObject.hpp"
 
 #include <string>
 
-class TextObject : public RenderObject {
+class TextObject : public RenderObject, public RGBObject {
 protected:
     std::string _textLabel;
-    Color _color;
     int _fontSize = 20;
     float _spacing = 2.f;
 public:
@@ -41,8 +41,6 @@ public:
     int getTextSize();
     int getTextSizeY();
 
-    void setColor(Color color);
-    
     void setFont(Font font);
 
     void setFontSize(int fontSize);

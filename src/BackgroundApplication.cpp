@@ -33,7 +33,7 @@ BackgroundApplication::BackgroundApplication(DWM *owner, std::string wallpaperPa
 
     SetTextureFilter(bg->getTexture(), TEXTURE_FILTER_BILINEAR);
 
-    t->_scaleX = 1.f;
+    // t->setS
 
     this->pushObject("wallpaper", bg);
     this->pushObject("text", t);
@@ -83,13 +83,11 @@ void BackgroundApplication::prerender(float delta) {
 
     if (texture.height > _windowSize.y) {
         ratio = (float)_windowSize.y / (float)texture.height;
-        bg->_scaleX = ratio;
-        bg->_scaleY = ratio;
+        bg->setScale(ratio);
     }
     if (((float)texture.width * ratio) < (float)_windowSize.x) {
         ratio = (float)_windowSize.x / (float)texture.width;
-        bg->_scaleX = ratio;
-        bg->_scaleY = ratio;
+        bg->setScale(ratio);
     }
 
     int posX = (_windowSize.x - ((float)texture.width * ratio)) / 2;

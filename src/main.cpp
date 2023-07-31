@@ -55,8 +55,6 @@ int main(int, char**){
     // auto win = new TestWindow(dwm);
     // win->_scaleX = 10.f;
 
-    taskbar->_y -= 0;
-
     dwm->pushApplication(taskbar);
     // dwm->pushApplication(win);
     dwm->pushApplication(bg);

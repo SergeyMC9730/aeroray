@@ -27,7 +27,7 @@ TextureObject::TextureObject(Texture2D texture) {
 }
 TextureObject::TextureObject(Texture2D texture, Rectangle rect) {
     setPosition((Vector2){rect.x, rect.y});
-    setWidthHeight((Vector2){rect.width, rect.height});
+    setSize((Vector2){rect.width, rect.height});
     
     applyTexture(texture);
 
@@ -47,7 +47,7 @@ void TextureObject::applyTexture(Texture2D texture, bool unloadOld) {
 
     _texture = texture;
 
-    setWidthHeight(_texture.width, _texture.height);
+    setSize(_texture.width, _texture.height);
 }
 
 void TextureObject::render(float delta) {
@@ -61,7 +61,7 @@ void TextureObject::render(float delta) {
 
     int i = 0;
     while(i < _dencity) {
-        DrawTexturePro(_texture, rect2, rect1, (Vector2){0, 0}, _rotation, WHITE);
+        DrawTexturePro(_texture, rect2, rect1, (Vector2){0, 0}, _rotation, _color);
         i++;
     }
 

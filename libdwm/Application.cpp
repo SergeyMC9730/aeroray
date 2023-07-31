@@ -20,6 +20,8 @@
 
 #include "ButtonObject.hpp"
 
+#include "GlassObject.hpp"
+
 Application::Application(ApplicationType type, DWM *owner, bool spawnUnselected) {
     _old_envSize.x = GetRenderWidth();
     _old_envSize.y = GetRenderHeight();
@@ -201,10 +203,7 @@ bool Application::prepareRendering() {
 
     BeginTextureMode(_framebuffer);
 
-    if (_type <= ApplicationType::WindowedBorderless) ClearBackground((Color){255, 255, 255, 255});
-    else {
-        ClearBackground((Color){255, 255, 255, 0});
-    }
+    ClearBackground((Color){255, 255, 255, 0});
 
     BeginMode2D(_camera);
 
@@ -213,8 +212,18 @@ bool Application::prepareRendering() {
 void Application::beginRendering(float delta) {
     for (auto iter = _objects.rbegin(); iter != _objects.rend(); ++iter) {
         if (!iter->second->_hidden) {
+            if (iter->second->getRendererType() == RO_RECTGLASS) {
+                auto gl = static_cast<GlassObject *>(iter->second);
+
+                gl->_app = this;
+            }
             iter->second->prerender(delta);
+
+            if (!iter->second->_cameraOutput) EndMode2D();
+
             iter->second->render(delta);
+
+            if (!iter->second->_cameraOutput) BeginMode2D(_camera);
         }
     }
 }
@@ -256,8 +265,8 @@ Rectangle Application::getMousePosition() {
 
         rec.x = 99999;
         rec.y = 99999;
-        rec.width = 1;
-        rec.height = 1;
+        rec.width = 0;
+        rec.height = 0;
 
         return rec;
     }
@@ -274,7 +283,7 @@ Rectangle Application::getMousePosition() {
 }
 
 void Application::pushObject(std::string objname, RenderObject *obj) {
-    if (obj->_ObjectType == RenderObjectType::RO_BUTTON) {
+    if (obj->getRendererType() == RenderObjectType::RO_BUTTON) {
         auto btn = static_cast<ButtonObject *>(obj);
 
         btn->_linkedApplication = this;
@@ -350,6 +359,12 @@ bool Application::isKeyDown(int key) {
     if (_owner->_selectedWindow != this) return false;
 
     return IsKeyDown(key);
+}
+
+Vector2 Application::getMouseWheelMoveV() {
+    if (_owner->_selectedWindow != this) return {};
+
+    return GetMouseWheelMoveV();
 }
 
 std::map<std::string, Color> Application::getDesignTheme() {

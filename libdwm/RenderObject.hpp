@@ -25,14 +25,13 @@ enum RenderObjectType {
     RO = 0,
     RO_APPLICATION, RO_BUTTON, RO_RECTANGLE, 
     RO_TEXT, RO_TEXTURE, RO_DWM,
-    RO_TEXTFIELD
+    RO_TEXTFIELD, RO_RECTGLASS
 };
 
 class RenderObject {
 protected:
     RenderObjectType _ObjectType;
     uint8_t _blendType = 0xFF;
-public:
     int _x = 0;
     int _y = 0;
     int _width = 0;
@@ -41,8 +40,9 @@ public:
     float _scaleX = 1.f;
     float _scaleY = 1.f;
     float _rotation = 0.f;
-
+public:
     bool _hidden = false;
+    bool _cameraOutput = true;
 
     RenderObject();
     RenderObject(Rectangle rect);
@@ -58,13 +58,42 @@ public:
     void setPosition(Vector2 vec);
     void setPosition(int x, int y);
 
-    void setWidthHeight(Vector2 vec);
-    void setWidthHeight(int w, int h);
+    void setPositionX(float x);
+    void setPositionY(float y);
+
+    float getPositionX();
+    float getPositionY();
+
+    Vector2 getPosition();
+
+    RenderObjectType getRendererType();
 
     bool checkCollision(RenderObject *obj);
     bool checkCollision(Rectangle rect);
 
     void setBlending(uint8_t blending);
 
-    friend class Application;
+    void setRotation(float rot);
+    float getRotation();
+
+    void setSize(Vector2 size);
+    void setSize(float x, float y);
+    Vector2 getSize();
+
+    void setSizeX(float x);
+    void setSizeY(float y);
+
+    float getSizeX();
+    float getSizeY();
+
+    void setScale(Vector2 scale);
+    void setScale(float x, float y);
+    void setScale(float scale);
+    Vector2 getScale();
+
+    void setScaleX(float x);
+    float getScaleX();
+
+    void setScaleY(float y);
+    float getScaleY();
 };

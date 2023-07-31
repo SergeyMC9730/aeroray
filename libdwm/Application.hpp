@@ -49,6 +49,7 @@ protected:
 
     Rectangle _headerRectangle;
     Rectangle _fullWindowRegion;
+    Rectangle _windowRegion;
     Rectangle _exitButtonRect;
 
     std::vector<Rectangle> _borderRectangles;
@@ -107,9 +108,12 @@ public:
     bool isKeyUp(int key);
     bool isKeyDown(int key);
 
+    Vector2 getMouseWheelMoveV();
+
     ApplicationType getAppType();
 
     friend class DWM;
-    friend class TaskbarApplication;
     friend class ButtonObject;
+    friend class GlassObject;
+    friend class TaskbarApplication;
 };

@@ -24,6 +24,7 @@
 #include <map>
 #include <functional>
 
+#include "RendererDebug.h"
 #include "RenderObject.hpp"
 
 class DWM : public RenderObject {
@@ -40,6 +41,8 @@ public:
     std::vector<RenderObject *> _applications;
     std::vector<Shader> _shaders;
     std::map<std::string, Font> _fonts;
+
+    std::map<std::string, RenderDebug> _debuggers;
 
     RenderTexture2D _globalTexture;
 

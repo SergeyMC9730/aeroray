@@ -19,13 +19,12 @@
 #pragma once
 
 #include "RenderObject.hpp"
+#include "RGBObject.hpp"
 
-class RectangleObject : public RenderObject {
+class RectangleObject : public RenderObject, public RGBObject {
 public:
     RectangleObject();
     ~RectangleObject() override;
-    
-    Color _color;
 
     void render(float delta) override;
 };

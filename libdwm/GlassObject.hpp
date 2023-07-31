@@ -18,28 +18,19 @@
 
 #pragma once
 
-#include "RenderObject.hpp"
+#include "RectangleObject.hpp"
+#include "DWM.hpp"
+#include "Application.hpp"
 
-#include <raylib.h>
-
-#include <cstdint>
-
-#include "RGBObject.hpp"
-
-class TextureObject : public RenderObject, public RGBObject {
-protected:
-    Texture2D _texture;
+class GlassObject : public RectangleObject {
 public:
-    int _dencity = 1;
-
-    TextureObject(Texture2D texture);
-    TextureObject(Texture2D texture, Rectangle rect);
-
-    ~TextureObject() override;
-
-    void applyTexture(Texture2D texture, bool unloadOld = false);
-
     void render(float delta) override;
+protected:
+    DWM *_manager = nullptr;
+    Application *_app = nullptr;
+public:
+    GlassObject(DWM *owner);
+    ~GlassObject();
 
-    Texture2D getTexture();
+    friend Application;
 };

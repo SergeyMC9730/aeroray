@@ -21,6 +21,7 @@
 #include <TextObject.hpp>
 #include <TextFieldObject.hpp>
 #include <ButtonObject.hpp>
+#include <GlassObject.hpp>
 
 #include <iostream>
 #include <filesystem>
@@ -42,9 +43,11 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
     loadTexture2("ui/taskbar_app.png");
     loadTexture2("ui/taskbar_app_selected.png");
 
-    auto text_hi = new TextObject("Select current wallpaper for this session:");
-    text_hi->setColor(BLACK);
+    auto glass_obj = new GlassObject(owner);
 
+    auto text_hi = new TextObject("Select current wallpaper for this session:");
+    
+    text_hi->setColor(BLACK);
     text_hi->setFont(owner->accessFont("Segoe UI Bold", 25));
     text_hi->setFontSize(25);
     text_hi->setSpacing(0.5f);
@@ -101,7 +104,7 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
     text1->setFont(owner->accessFont("Segoe UI Bold", 25));
     text1->setFontSize(25);
     text1->setSpacing(0.5f);
-    text1->setBlending(BLEND_MULTIPLIED);
+    text1->setBlending(BLEND_ALPHA_PREMULTIPLY);
     text1->setPosition(posX__, posY__);
 
     text_hi->setPosition(40, 40);
@@ -115,13 +118,18 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
 
     btn_notepad->setPosition(posX__, posY__ + text1->getTextSizeY() + 10);
 
+    glass_obj->setColor(BLACK);
+    glass_obj->setSize(_windowSize.x, _windowSize.y);
+    glass_obj->_cameraOutput = false;
+
+    this->pushObject("glass", glass_obj);
     this->pushObject("text", text_hi);
     this->pushObject("text1", text1);
     this->pushObject("btn_notepad", btn_notepad);
 }
 
 void TestWindow::beginRendering(float delta) {
-    ClearBackground(WHITE);
+    // ClearBackground(WHITE);
 
     Application::beginRendering(delta);
 }
@@ -129,7 +137,7 @@ void TestWindow::beginRendering(float delta) {
 void TestWindow::prerender(float delta) {
     _taskbarHidden = false;
 
-    _camera.offset.y += (GetMouseWheelMoveV().y * 20.f);
+    _camera.offset.y += (getMouseWheelMoveV().y * 20.f);
 
     if (_camera.offset.y > 0.f) {
         _camera.offset.y = 0.f;

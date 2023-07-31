@@ -144,7 +144,7 @@ void DWM::render(float delta) {
                 continue;
             }
             
-            int posY_t = _applications[i]->_y;
+            int posY_t = _applications[i]->getPosition().y;
             Rectangle render_rec;
             render_rec.x = 0;
             render_rec.y = 0;
@@ -153,11 +153,11 @@ void DWM::render(float delta) {
 
             EndTextureMode();
 
-            DrawTextureRec(app->_framebuffer.texture, render_rec, (Vector2){(float)_applications[i]->_x, (float)_applications[i]->_y}, WHITE);
+            DrawTextureRec(app->_framebuffer.texture, render_rec, (Vector2){(float)_applications[i]->getPosition().x, (float)_applications[i]->getPosition().y}, WHITE);
 
             BeginTextureMode(_globalTexture);
 
-            DrawTextureRec(app->_framebuffer.texture, render_rec, (Vector2){(float)_applications[i]->_x, (float)_applications[i]->_y}, WHITE);
+            DrawTextureRec(app->_framebuffer.texture, render_rec, (Vector2){(float)_applications[i]->getPosition().x, (float)_applications[i]->getPosition().y}, WHITE);
 
             render_rec.width = _globalTexture.texture.width;
             render_rec.height = -_globalTexture.texture.height;
@@ -414,6 +414,11 @@ void DWM::render(float delta) {
         i++;
     }
     EndTextureMode();
+
+    for (auto [key, val] : _debuggers) {
+        // DrawRectangle(val.vec.x, val.vec.y, 10, 10, val.col);
+        DrawRectangleLinesEx(val.vec, 2, val.col);
+    }
 }
 
 Rectangle DWM::getMouse() {

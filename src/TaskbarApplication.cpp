@@ -116,36 +116,31 @@ void TaskbarApplication::prerender(float delta) {
     auto rh = _windowSize.y;
     auto rw = _windowSize.x;
 
-    taskbar_start->_y = rh - taskbar_start->getTexture().height;
-    taskbar_start->_height = taskbar_start->getTexture().height;
+    taskbar_start->setPositionY(rh - taskbar_start->getTexture().height);
+    taskbar_start->setSizeY(taskbar_start->getTexture().height);
 
-    taskbar_middle->_width = rw - taskbar_end->getTexture().width - taskbar_start->getTexture().width;
-    taskbar_middle->_height = taskbar_middle->getTexture().height;
-    taskbar_middle->_y = taskbar_start->_y;
-    taskbar_middle->_x = taskbar_start->getTexture().width;
+    taskbar_middle->setSize(rw - taskbar_end->getTexture().width - taskbar_start->getTexture().width, taskbar_middle->getTexture().height);
+    taskbar_middle->setPosition(taskbar_start->getTexture().width, taskbar_start->getPositionY());
 
     // rectangle_workaround->_width = rw;
     // rectangle_workaround->_height = taskbar_middle->getTexture().height;
     // rectangle_workaround->_y = taskbar_start->_y;
     // rectangle_workaround->_x = 0;
 
-    taskbar_end->_height = taskbar_end->getTexture().height;
-    taskbar_end->_x = rw - taskbar_end->getTexture().width;
-    taskbar_end->_y = taskbar_middle->_y;
+    taskbar_end->setSizeY(taskbar_end->getTexture().height);
+    taskbar_end->setPosition(rw - taskbar_end->getTexture().width, taskbar_middle->getPositionY());
 
-    button_show_hide->_x = rw - button_show_hide->getTexture().width;
-    button_show_hide->_y = taskbar_end->_y;
+    button_show_hide->setPosition(rw - button_show_hide->getTexture().width, taskbar_end->getPositionY());
 
-    button_windows->_x = 1;
-    button_windows->_y = taskbar_end->_y - 6;
+    button_windows->setPosition(1, taskbar_end->getPositionY() - 6);
 
     Rectangle mouse_rect = DWM::getMouse();
 
-    auto btn_rect = button_windows->toRect();
-    btn_rect.width -= 16;
-    btn_rect.height -= 18;
-    btn_rect.x += 8;
-    btn_rect.y += 10;
+    // auto btn_rect = button_windows->toRect();
+    // btn_rect.width -= 16;
+    // btn_rect.height -= 18;
+    // btn_rect.x += 8;
+    // btn_rect.y += 10;
 
     return;
 }
@@ -162,7 +157,7 @@ void TaskbarApplication::beginRendering(float delta) {
 
     // EndTextureMode();
 
-    BeginScissorMode(0, GetRenderHeight() - taskbar_start->_height, GetRenderWidth(), taskbar_start->_height);
+    BeginScissorMode(0, GetRenderHeight() - taskbar_start->getSizeY(), GetRenderWidth(), taskbar_start->getSizeY());
     Color col = BLACK;
     col.a = 128;
     DrawRectangle(0, 0, GetRenderWidth(), GetRenderHeight(), col);
@@ -182,7 +177,7 @@ void TaskbarApplication::beginRendering(float delta) {
     Application::beginRendering(delta);
 
     int posX = 60;
-    int posY = taskbar_start->_y;
+    int posY = taskbar_start->getPositionY();
 
     auto _applications = _owner->_applications;
     std::sort(_applications.begin(), _applications.end(), [](RenderObject *app1, RenderObject *app2) {
@@ -255,13 +250,13 @@ void TaskbarApplication::beginRendering(float delta) {
     float mes1 = MeasureTextEx(font, currentTime.c_str(), 17, 0.3f).x;
     float mes2 = MeasureTextEx(font, currentDay.c_str(), 17, 0.3f).x;
 
-    float test1 = (taskbar_end->_width - mes1) / 2.f;
-    float test2 = (taskbar_end->_width - mes2) / 2.f;
+    float test1 = (taskbar_end->getSizeX() - mes1) / 2.f;
+    float test2 = (taskbar_end->getSizeX() - mes2) / 2.f;
 
     BeginBlendMode(BLEND_ADDITIVE);
 
-    DrawTextEx(font, currentTime.c_str(), (Vector2){_windowSize.x - 25 - (test1 * 0.87f), (float)taskbar_start->_y + 4.f}, 17, 0.3F, WHITE);
-    DrawTextEx(font, currentDay.c_str(), (Vector2){_windowSize.x - 25 - test2, (float)taskbar_start->_y + 21.f}, 17, 0.3F, WHITE);
+    DrawTextEx(font, currentTime.c_str(), (Vector2){_windowSize.x - 25 - (test1 * 0.87f), taskbar_start->getPositionY() + 4.f}, 17, 0.3F, WHITE);
+    DrawTextEx(font, currentDay.c_str(), (Vector2){_windowSize.x - 25 - test2, taskbar_start->getPositionY() + 21.f}, 17, 0.3F, WHITE);
 
     EndBlendMode();
 }

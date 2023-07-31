@@ -58,10 +58,6 @@ int TextObject::getTextSizeY() {
     return MeasureTextEx(_font, _textLabel.c_str(), fontSize, spacing).y;
 }
 
-void TextObject::setColor(Color color) {
-    _color = color;
-}
-
 void TextObject::setFont(Font font) {
     _font = font;
 }
