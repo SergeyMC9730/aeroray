@@ -32,7 +32,7 @@ public:
     Font _font;
 
     TextObject(std::string textLabel = "");
-    ~TextObject() override;
+    ~TextObject();
 
     void render(float delta) override;
 

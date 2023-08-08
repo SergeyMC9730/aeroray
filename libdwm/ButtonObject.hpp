@@ -44,7 +44,7 @@ public:
     ButtonObject(Texture2D texture, Rectangle hitboxRect, Texture2D selectedTexture, std::function<void(ButtonObject *self, void *customArg)> callback, void *customArg);
     ButtonObject(Texture2D texture, Rectangle hitboxRect, std::function<void(ButtonObject *self, void *customArg)> callback, void *customArg);
 
-    ~ButtonObject() override;
+    ~ButtonObject();
 
     void prerender(float delta) override;
 

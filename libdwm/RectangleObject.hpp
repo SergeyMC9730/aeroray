@@ -24,7 +24,7 @@
 class RectangleObject : public RenderObject, public RGBObject {
 public:
     RectangleObject();
-    ~RectangleObject() override;
+    ~RectangleObject();
 
     void render(float delta) override;
 };

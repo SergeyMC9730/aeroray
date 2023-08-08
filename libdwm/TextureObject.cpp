@@ -37,6 +37,7 @@ TextureObject::TextureObject(Texture2D texture, Rectangle rect) {
 }
 
 TextureObject::~TextureObject() {
+    UnloadTexture(_texture);
     // RenderObject::~RenderObject();
 }
 

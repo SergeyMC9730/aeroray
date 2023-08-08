@@ -31,10 +31,12 @@ class DWM : public RenderObject {
 protected:
     int currentZLayer = 1;
     bool _drawSecondFB = false;
-    std::string _resourcesFolder;
+    std::string _resourcesFolder = "";
+
+    std::map<RenderObject *, RenderTexture2D> _frambufferMappings = {};
 public:
     DWM(std::string resourcesFolder);
-    ~DWM() override;
+    ~DWM();
 
     RenderObject *_selectedWindow = nullptr;
 

@@ -18,12 +18,10 @@
 
 #pragma once
 
-#include <raylib.h>
+#include "DWM.hpp"
 
 #include <string>
 #include <map>
-
-#include "DWM.hpp"
 
 class TextureHolder {
 protected:

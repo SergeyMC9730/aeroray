@@ -36,7 +36,7 @@ TextObject::~TextObject() {
 
 void TextObject::render(float delta) {
     float fontSize = (float)_fontSize * _scaleX;
-    float spacing = _spacing;
+    float spacing = _spacing * _scaleX;
 
     if (_blendType != 0xFF) BeginBlendMode(_blendType);
     

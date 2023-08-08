@@ -16,8 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <raylib.h>
-
 #include <DWM.hpp>
 
 #include "TaskbarApplication.hpp"
@@ -33,11 +31,11 @@ DWM *dwm = nullptr;
 int main(int, char**){
     Registry::registry["currentWallpaperPath"] = "wallpapers/neon_win7.png";
 
-    srand(time(0));
+    // srand(time(0));
 
     bool display_fb = false;
 
-    InitWindow(1024, 768, "WDM Demo");
+    InitWindow(1280, 720, "WDM Demo");
 
     #if PLATFORM_DESKTOP == 1
     SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);

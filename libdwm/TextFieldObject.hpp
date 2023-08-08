@@ -36,7 +36,7 @@ private:
     Application *_context;
 public:
     TextFieldObject(Application *context, std::string text);
-    ~TextFieldObject() override;
+    ~TextFieldObject();
 
     void render(float delta) override;
 

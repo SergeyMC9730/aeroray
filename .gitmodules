@@ -1,3 +1,6 @@
 [submodule "raylib"]
 	path = raylib
 	url = https://github.com/raysan5/raylib.git
+[submodule "libdwm/raylib-video"]
+	path = libdwm/raylib-video
+	url = https://github.com/jtainer/raylib-video.git

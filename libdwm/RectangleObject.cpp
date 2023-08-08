@@ -33,7 +33,7 @@ void RectangleObject::render(float delta) {
 
     if (_blendType != 0xFF) BeginBlendMode(_blendType);
 
-    DrawRectanglePro(rec, (Vector2){0, 0}, _rotation, _color);
+    DrawRectanglePro(rec, (Vector2){0, 0}, getRotation(), getColor());
 
     if (_blendType != 0xFF) EndBlendMode();
 

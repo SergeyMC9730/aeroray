@@ -18,6 +18,8 @@
 
 #pragma once
 
+#include "DWMConfig.h"
+
 #include <raylib.h>
 #include <cstdint>
 
@@ -25,7 +27,8 @@ enum RenderObjectType {
     RO = 0,
     RO_APPLICATION, RO_BUTTON, RO_RECTANGLE, 
     RO_TEXT, RO_TEXTURE, RO_DWM,
-    RO_TEXTFIELD, RO_RECTGLASS
+    RO_TEXTFIELD, RO_RECTGLASS,
+    RO_VIDEO
 };
 
 class RenderObject {
@@ -40,10 +43,10 @@ protected:
     float _scaleX = 1.f;
     float _scaleY = 1.f;
     float _rotation = 0.f;
-public:
+
     bool _hidden = false;
     bool _cameraOutput = true;
-
+public:
     RenderObject();
     RenderObject(Rectangle rect);
 
@@ -96,4 +99,10 @@ public:
 
     void setScaleY(float y);
     float getScaleY();
+
+    void setHidden(bool hidden);
+    bool isHidden();
+
+    void toggleCameraOutput(bool output);
+    bool outputsToCamera();
 };

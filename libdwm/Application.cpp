@@ -92,6 +92,9 @@ Application::Application(ApplicationType type, DWM *owner, bool spawnUnselected)
     _camera.offset.y = 0;
 
     _ObjectType = RenderObjectType::RO_APPLICATION;
+
+    _width = _windowSize.x;
+    _height = _windowSize.y;
 }
 Application::~Application() {
     processApplicationExit();
@@ -205,13 +208,13 @@ bool Application::prepareRendering() {
 
     ClearBackground((Color){255, 255, 255, 0});
 
-    BeginMode2D(_camera);
+    // BeginMode2D(_camera);
 
     return true;
 }
 void Application::beginRendering(float delta) {
     for (auto iter = _objects.rbegin(); iter != _objects.rend(); ++iter) {
-        if (!iter->second->_hidden) {
+        if (!iter->second->isHidden()) {
             if (iter->second->getRendererType() == RO_RECTGLASS) {
                 auto gl = static_cast<GlassObject *>(iter->second);
 
@@ -219,17 +222,22 @@ void Application::beginRendering(float delta) {
             }
             iter->second->prerender(delta);
 
-            if (!iter->second->_cameraOutput) EndMode2D();
+            BeginMode2D(_camera);
+
+            _cameraDisabled = false;
+
+            if (!iter->second->outputsToCamera()) {
+                _cameraDisabled = true;
+                EndMode2D();
+            }
 
             iter->second->render(delta);
-
-            if (!iter->second->_cameraOutput) BeginMode2D(_camera);
         }
     }
 }
 
 void Application::endRendering() {
-    EndMode2D();
+    if (!_cameraDisabled) EndMode2D();
 
     EndTextureMode();
     

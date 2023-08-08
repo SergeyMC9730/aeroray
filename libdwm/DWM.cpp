@@ -136,7 +136,7 @@ void DWM::render(float delta) {
 
     i = 0;
     while(i < _applications.size()) {
-        if (_applications[i] != nullptr && !_applications[i]->_hidden) {
+        if (_applications[i] != nullptr && !_applications[i]->isHidden()) {
             auto app = dynamic_cast<Application *>(_applications[i]);
 
             if (app->_hidden || app->_emptyFB) {
@@ -225,7 +225,9 @@ void DWM::render(float delta) {
                 s1.y = posY;
                 s1.width = 8;
                 s1.height = height;
-                app->_borderRectangles[0] = s1;
+                // app->_borderRectangles[0] = s1;
+
+                auto font = accessFont("Segoe UI", 17);
 
                 // sidebar gradient 2
                 posX = app->_x + app->_windowSize.x;
@@ -283,7 +285,7 @@ void DWM::render(float delta) {
                 // black line 4
                 posX = app->_x + app->_windowSize.x + 8;
                 DrawLine(posX, posY, posX, posY + 30 + app->_windowSize.y + 8, BLACK);
-            
+                
                 EndBlendMode();
 
                 posX = app->_x + 4;
@@ -294,7 +296,7 @@ void DWM::render(float delta) {
                 // draw window title
                 posX += app->_applicationIcon.width + 1 + 4;
                 posY -= 2;
-                auto font = accessFont("Segoe UI", 17);
+                    
                 DrawTextEx(font, app->getWindowTitle().c_str(), (Vector2){(float)posX, (float)posY}, 17, 0.5f, WHITE);
             
                 BeginTextureMode(_globalTexture);
@@ -381,6 +383,15 @@ void DWM::render(float delta) {
                 DrawTextEx(font, app->getWindowTitle().c_str(), (Vector2){(float)posX, (float)posY}, 17, 0.5f, WHITE);
             
                 EndTextureMode();
+
+                // Rectangle rect1;
+                // rect1.x = 0;
+                // rect1.y = 0;
+                // rect1.width = _globalTexture.texture.width;
+                // rect1.height = -_globalTexture.texture.height;
+
+                // // DrawTexture(_globalTexture.texture, 0, 0, WHITE);
+                // DrawTextureRec(_globalTexture.texture, rect1, {0, 0}, WHITE);
             }
 
             posX = app->_x + app->_windowSize.x - app->_textureMap["ui/exitbutton.png"].width - 2;

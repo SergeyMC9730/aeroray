@@ -20,10 +20,8 @@
 
 RenderObject::RenderObject() {}
 RenderObject::RenderObject::RenderObject(Rectangle rect) {
-    _x = rect.x;
-    _y = rect.y;
-    _width = rect.width;
-    _height = rect.height;
+    setPosition(rect.x, rect.y);
+    setSize(rect.width, rect.height);
 
     _ObjectType = RenderObjectType::RO;
 }
@@ -31,10 +29,10 @@ RenderObject::RenderObject::RenderObject(Rectangle rect) {
 Rectangle RenderObject::toRect() {
     Rectangle rect;
 
-    rect.x = _x;
-    rect.y = _y;
-    rect.width = _width;
-    rect.height = _height;
+    rect.x = getPositionX();
+    rect.y = getPositionY();
+    rect.width = getSizeX();
+    rect.height = getSizeY();
 
     return rect;
 }
@@ -52,8 +50,7 @@ void RenderObject::setPosition(Vector2 vec) {
     _y = vec.y;
 }
 void RenderObject::setPosition(int x, int y) {
-    _x = x;
-    _y = y;
+    setPosition((Vector2){(float)x, (float)y});
 }
 
 RenderObjectType RenderObject::getRendererType() {
@@ -168,5 +165,19 @@ void RenderObject::setScaleY(float y) {
 float RenderObject::getScaleY() {
     return _scaleY;
 }
+
+void RenderObject::setHidden(bool hidden) {
+    _hidden = hidden;
+}
+bool RenderObject::isHidden() {
+    return _hidden;
+};
+
+void RenderObject::toggleCameraOutput(bool output) {
+    _cameraOutput = output;
+};
+bool RenderObject::outputsToCamera() {
+    return _cameraOutput;
+};
 
 RenderObject::~RenderObject() {}

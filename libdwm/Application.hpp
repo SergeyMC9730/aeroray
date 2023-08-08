@@ -18,14 +18,12 @@
 
 #pragma once
 
-#include <raylib.h>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "RenderObject.hpp"
 #include "TextureHolder.hpp"
-
 #include "DWM.hpp"
 
 enum ApplicationType {
@@ -63,6 +61,8 @@ protected:
     bool _taskbarHidden;
     bool _hidden;
 
+    bool _cameraDisabled = false;
+
     DWM *_owner;
 
     bool _emptyFB = false;
@@ -87,7 +87,7 @@ public:
     Texture2D _applicationIconFull;
     
     Application(ApplicationType type, DWM *owner, bool spawnUnselected = false);
-    ~Application() override;
+    ~Application();
 
     void render(float delta) override;
 

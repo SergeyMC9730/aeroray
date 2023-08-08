@@ -36,5 +36,5 @@ public:
     void prerender(float delta) override;
 
     TestWindow(DWM *owner);
-    ~TestWindow() override;
+    ~TestWindow();
 };

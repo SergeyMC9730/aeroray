@@ -16,7 +16,10 @@ NotepadWindow::NotepadWindow(DWM *owner) : Application(Windowed, owner) {
     setWindowTitle("Notepad");
 
     auto rect_bg = new RectangleObject();
-    rect_bg->setSize(_width, _height);
+    rect_bg->setSize(getSize());
+    rect_bg->setColor(WHITE);
+    rect_bg->toggleCameraOutput(false);
+    rect_bg->setBlending(BLEND_ALPHA_PREMULTIPLY);
 
     _taskbarHidden = false;
     _hidden = false;
@@ -28,7 +31,7 @@ NotepadWindow::NotepadWindow(DWM *owner) : Application(Windowed, owner) {
 NotepadWindow::~NotepadWindow() {}
 
 void NotepadWindow::prerender(float delta) {
-    _camera.offset.y += (getMouseWheelMoveV().y * 20.f);
+    _camera.offset.y += (this->getMouseWheelMoveV().y * 20.f);
 
     if (_camera.offset.y > 0.f) {
         _camera.offset.y = 0.f;

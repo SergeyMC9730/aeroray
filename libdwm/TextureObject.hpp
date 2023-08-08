@@ -18,15 +18,13 @@
 
 #pragma once
 
-#include "RenderObject.hpp"
-
-#include <raylib.h>
+#include "RectangleObject.hpp"
 
 #include <cstdint>
 
 #include "RGBObject.hpp"
 
-class TextureObject : public RenderObject, public RGBObject {
+class TextureObject : public RectangleObject {
 protected:
     Texture2D _texture;
 public:
@@ -35,7 +33,7 @@ public:
     TextureObject(Texture2D texture);
     TextureObject(Texture2D texture, Rectangle rect);
 
-    ~TextureObject() override;
+    ~TextureObject();
 
     void applyTexture(Texture2D texture, bool unloadOld = false);
 

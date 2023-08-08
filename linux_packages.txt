@@ -1,0 +1,8 @@
+Debian based distros:
+ - libavcodec58 libavformat58
+   libswscale5
+
+ - libavcodec-dev libavformat-dev
+   libswscale-dev
+
+ - gcc g++

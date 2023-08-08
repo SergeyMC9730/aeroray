@@ -30,6 +30,8 @@ TextFieldObject::~TextFieldObject() {}
 void TextFieldObject::render(float delta) {
     TextObject::render(delta);
 
+    if (_blendType != 0xFF) BeginBlendMode(_blendType);
+
     if (_showCursor) {
         int textSize = getTextSize();
 
@@ -43,6 +45,8 @@ void TextFieldObject::render(float delta) {
     }
 
     DrawRectangleLinesEx(_clickField, 1, (_allow_writing) ? LIME : BLUE);
+
+    if (_blendType != 0xFF) EndBlendMode();
 }
 
 void TextFieldObject::prerender(float delta) {
@@ -69,7 +73,7 @@ void TextFieldObject::prerender(float delta) {
 
     _currentFrame++;
 
-    if (_currentFrame % _fps == (_fps / 2)) {
+    if ((_currentFrame % _fps) == (_fps / 2)) {
         _currentFrame = 0;
         _fps = GetFPS();
         _showCursor = !_showCursor;

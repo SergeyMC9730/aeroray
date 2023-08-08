@@ -1,0 +1,4 @@
+#pragma once
+
+#define SUPPORT_FILEFORMAT_JPG
+#define SUPPORT_FILEFORMAT_BMP

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "DWMConfig.h"
+
 #include <raylib.h>
 
 class RGBObject {

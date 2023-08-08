@@ -22,6 +22,7 @@
 #include <TextFieldObject.hpp>
 #include <ButtonObject.hpp>
 #include <GlassObject.hpp>
+#include <RectangleObject.hpp>
 
 #include <iostream>
 #include <filesystem>
@@ -34,6 +35,8 @@
 
 #include <thread>
 #include <chrono>
+
+#include <VideoObject.hpp>
 
 using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
 
@@ -51,7 +54,7 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
     text_hi->setFont(owner->accessFont("Segoe UI Bold", 25));
     text_hi->setFontSize(25);
     text_hi->setSpacing(0.5f);
-    text_hi->setBlending(BLEND_MULTIPLIED);
+    // text_hi->setBlending(BLEND_MULTIPLIED);
 
     auto old_dir = GetWorkingDirectory();
 
@@ -104,7 +107,7 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
     text1->setFont(owner->accessFont("Segoe UI Bold", 25));
     text1->setFontSize(25);
     text1->setSpacing(0.5f);
-    text1->setBlending(BLEND_ALPHA_PREMULTIPLY);
+    // text1->setBlending(BLEND_MULTIPLIED);
     text1->setPosition(posX__, posY__);
 
     text_hi->setPosition(40, 40);
@@ -117,11 +120,19 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
     }, owner);
 
     btn_notepad->setPosition(posX__, posY__ + text1->getTextSizeY() + 10);
+    
+    Color col = BLACK;
+    col.a = 128;
 
-    glass_obj->setColor(BLACK);
+    glass_obj->setColor(col);
     glass_obj->setSize(_windowSize.x, _windowSize.y);
-    glass_obj->_cameraOutput = false;
+    glass_obj->toggleCameraOutput(true);
+    // glass_obj->setBlending(BLEND_MULTIPLIED);
 
+    auto video_test = new VideoObject(owner->getResourcesPath() + "/test/cube.mp4");
+    video_test->toggleCameraOutput(false);
+
+    this->pushObject("cube", video_test);
     this->pushObject("glass", glass_obj);
     this->pushObject("text", text_hi);
     this->pushObject("text1", text1);
@@ -129,7 +140,7 @@ TestWindow::TestWindow(DWM *owner) : Application(ApplicationType::Windowed, owne
 }
 
 void TestWindow::beginRendering(float delta) {
-    // ClearBackground(WHITE);
+    ClearBackground(WHITE);
 
     Application::beginRendering(delta);
 }
