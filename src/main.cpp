@@ -22,6 +22,8 @@
 #include "BackgroundApplication.hpp"
 #include "TestWindow.hpp"
 
+#include "SoundManager.hpp"
+
 #include "Registry.hpp"
 
 #define TEXTINFO_ID 0xA1198DD2
@@ -57,8 +59,14 @@ int main(int, char**){
     // dwm->pushApplication(win);
     dwm->pushApplication(bg);
 
+    SoundManager manager;
+
+    manager.play("resources/audio/Kalimba.mp3");
+
     while (!WindowShouldClose())
-    {    
+    {
+        manager.update();
+
         float delta = GetFrameTime();
 
         if (IsKeyPressed(KEY_TAB)) {
@@ -77,20 +85,20 @@ int main(int, char**){
             DrawText(t.c_str(), 4, 4, 20, LIME);
             DrawFPS(4, 25);
 
-            // if (display_fb) {
-            //     ClearBackground(BLACK);
-            //     BeginShaderMode(dwm->_shaders[0]);
-            //     Rectangle rec;
-            //     rec.x = 0;
-            //     rec.y = 0;
-            //     rec.height = -dwm->_globalTexture.texture.height;
-            //     rec.width = dwm->_globalTexture.texture.width;
-            //     DrawTextureRec(dwm->_globalTexture2.texture, rec, (Vector2){0, 0}, WHITE);
-            //     EndShaderMode();
-            //     DrawText("DISPLAYING DWM FB", 4, 45, 20, LIME);
-            // } else {
-            //     DrawText("DISPLAYING RL FB", 4, 45, 20, LIME);
-            // }
+            if (display_fb) {
+                ClearBackground(BLACK);
+                BeginShaderMode(dwm->_shaders[0]);
+                Rectangle rec;
+                rec.x = 0;
+                rec.y = 0;
+                rec.height = -dwm->_globalTexture.texture.height;
+                rec.width = dwm->_globalTexture.texture.width;
+                DrawTextureRec(dwm->_globalTexture.texture, rec, (Vector2){0, 0}, WHITE);
+                EndShaderMode();
+                DrawText("DISPLAYING DWM FB", 4, 45, 20, LIME);
+            } else {
+                DrawText("DISPLAYING RL FB", 4, 45, 20, LIME);
+            }
         EndDrawing();
     }
 
